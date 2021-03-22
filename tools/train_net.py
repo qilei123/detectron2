@@ -39,10 +39,6 @@ from detectron2.evaluation import (
 )
 from detectron2.modeling import GeneralizedRCNNWithTTA
 
-from detectron2.data.datasets import register_coco_instances
-register_coco_instances("erosive_train", {}, "/data1/qilei_chen/DATA/erosive/annotations/train.json", "/data1/qilei_chen/DATA/erosive/images")
-register_coco_instances("erosive_test", {}, "data1/qilei_chen/DATA/erosive/annotations/test.json", "/data1/qilei_chen/DATA/erosive/images")
-
 class Trainer(DefaultTrainer):
     """
     We use the "DefaultTrainer" which contains pre-defined default logic for
