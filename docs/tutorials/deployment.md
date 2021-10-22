@@ -26,7 +26,7 @@ We currently support the following combination and each has some limitations:
 +----------------------------+-------------+-------------+-----------------------------+
 | **Runtime**                | PyTorch     | PyTorch     | Caffe2, PyTorch             |
 +----------------------------+-------------+-------------+-----------------------------+
-| C++/Python inference       | ✅          | ❌ (WIP_)   | ✅                          |
+| C++/Python inference       | ✅          | ✅          | ✅                          |
 +----------------------------+-------------+-------------+-----------------------------+
 | Dynamic resolution         | ✅          | ✅          | ✅                          |
 +----------------------------+-------------+-------------+-----------------------------+
@@ -43,8 +43,6 @@ We currently support the following combination and each has some limitations:
 | PointRend R-CNN            | ✅          | ❌          | ❌                          |
 +----------------------------+-------------+-------------+-----------------------------+
 
-.. _WIP: https://github.com/pytorch/pytorch/issues/46944
-
 ```
 
 We don't plan to work on additional support for other formats/runtime, but contributions are welcome.
@@ -57,7 +55,7 @@ Models can be exported to TorchScript format, by either
 The output model file can be loaded without detectron2 dependency in either Python or C++.
 The exported model often requires torchvision (or its C++ library) dependency for some custom ops.
 
-This feature requires PyTorch ≥ 1.8 (or latest on github before 1.8 is released).
+This feature requires PyTorch ≥ 1.8.
 
 ### Coverage
 Most official models under the meta architectures `GeneralizedRCNN` and `RetinaNet`
@@ -86,10 +84,10 @@ that performs the export logic.
 It replaces parts of the model with Caffe2 operators,
 and then export the model into Caffe2, TorchScript or ONNX format.
 
-The converted model is able to run in either Python or C++ without detectron2/torchvision dependency.
+The converted model is able to run in either Python or C++ without detectron2/torchvision dependency, on CPU or GPUs.
 It has a runtime optimized for CPU & mobile inference, but not optimized for GPU inference.
 
-This feature requires ONNX ≥ 1.6.
+This feature requires 1.9 > ONNX ≥ 1.6.
 
 ### Coverage
 
