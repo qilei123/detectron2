@@ -1,10 +1,11 @@
+# Copyright (c) Facebook, Inc. and its affiliates.
 import collections
 from dataclasses import dataclass
 from typing import Callable, List, Optional, Tuple
 import torch
 from torch import nn
 
-from detectron2.structures import Boxes, Instances
+from detectron2.structures import Boxes, Instances, ROIMasks
 from detectron2.utils.registry import _convert_target_to_string, locate
 
 from .torchscript_patch import patch_builtin_len
@@ -170,7 +171,7 @@ def flatten_to_tuple(obj):
         (tuple, TupleSchema),
         (collections.abc.Mapping, DictSchema),
         (Instances, InstancesSchema),
-        (Boxes, TensorWrapSchema),
+        ((Boxes, ROIMasks), TensorWrapSchema),
     ]
     for klass, schema in schemas:
         if isinstance(obj, klass):
@@ -280,7 +281,9 @@ class TracingAdapter(nn.Module):
             if self.inputs_schema is not None:
                 inputs_orig_format = self.inputs_schema(args)
             else:
-                if args != self.flattened_inputs:
+                if len(args) != len(self.flattened_inputs) or any(
+                    x is not y for x, y in zip(args, self.flattened_inputs)
+                ):
                     raise ValueError(
                         "TracingAdapter does not contain valid inputs_schema."
                         " So it cannot generalize to other inputs and must be"

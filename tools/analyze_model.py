@@ -5,6 +5,7 @@ import logging
 import numpy as np
 from collections import Counter
 import tqdm
+from fvcore.nn import flop_count_table  # can also try flop_count_str
 
 from detectron2.checkpoint import DetectionCheckpointer
 from detectron2.config import get_cfg
@@ -14,7 +15,6 @@ from detectron2.modeling import build_model
 from detectron2.utils.analysis import (
     FlopCountAnalysis,
     activation_count_operators,
-    flop_count_table,
     parameter_count_table,
 )
 from detectron2.utils.logger import setup_logger
